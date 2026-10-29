@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Number Cleaner</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#121a2e;--line:#263451;--text:#edf3ff;--muted:#9cabc5;--accent:#79a8ff;--ok:#9ee6bd}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#172746 0,#0b1020 55%);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text);padding:22px}
+main{max-width:850px;margin:auto}.hero{margin:10px 0 22px}.eyebrow{color:var(--accent);font-size:.82rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+h1{font-size:clamp(1.8rem,5vw,2.6rem);margin:.35rem 0}.sub{color:var(--muted);line-height:1.6}
+.panel{background:rgba(18,26,46,.94);border:1px solid var(--line);border-radius:18px;padding:18px;margin:14px 0;box-shadow:0 12px 35px #0002}
+label{display:block;font-weight:650;margin:0 0 8px}textarea,input{width:100%;background:#0b1223;border:1px solid #334362;border-radius:11px;color:var(--text);padding:13px;font:inherit;outline:none}textarea:focus,input:focus{border-color:var(--accent)}textarea{min-height:190px;resize:vertical}input{min-height:46px}
+.hint{font-size:.88rem;color:var(--muted);margin:7px 0 0;line-height:1.5}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}button{border:1px solid #3b4c6e;background:#1b2944;color:var(--text);padding:11px 15px;border-radius:11px;font:inherit;font-weight:650;cursor:pointer}button.primary{background:var(--accent);color:#081326;border-color:var(--accent)}button:hover{filter:brightness(1.08)}button:disabled{opacity:.45;cursor:not-allowed}
+.stats{display:flex;flex-wrap:wrap;gap:9px;margin:10px 0 14px}.stat{background:#0b1223;border:1px solid var(--line);padding:8px 11px;border-radius:10px;color:var(--muted);font-size:.9rem}.stat strong{color:var(--text)}
+.results{display:flex;flex-direction:column;gap:7px;max-height:390px;overflow:auto}.number{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#0b1223;border:1px solid #263451;border-radius:10px;padding:9px 10px}.number code{font:500 1rem ui-monospace,SFMono-Regular,monospace;overflow-wrap:anywhere}.number button{padding:7px 11px;flex-shrink:0}.empty{color:var(--muted);padding:22px;text-align:center;border:1px dashed var(--line);border-radius:12px}
+footer{font-size:.82rem;color:var(--muted);text-align:center;padding:16px}
+@media(max-width:560px){body{padding:13px}.grid{grid-template-columns:1fr}.panel{padding:14px}.number{align-items:flex-start}}
+</style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <div class="eyebrow">Offline • Private • Simple</div>
+    <h1>Number Cleaner</h1>
+    <p class="sub">অনেকগুলো নম্বর পেস্ট করুন, কান্ট্রি কোড বাদ দিন, ডুপ্লিকেট সরান এবং প্রতিটি নম্বর আলাদাভাবে কপি করুন। সব কাজ আপনার ব্রাউজারেই হবে—কোনো সার্ভারে নম্বর পাঠানো হয় না।</p>
+  </header>
+
+  <section class="panel">
+    <label for="raw">১. নম্বরগুলো পেস্ট করুন</label>
+    <textarea id="raw" placeholder="এক লাইনে একটি নম্বর, অথবা কমা/স্পেস দিয়ে আলাদা করা নম্বর&#10;+8801712345678&#10;8801812345678&#10;01712345678"></textarea>
+    <p class="hint">লাইন, কমা, সেমিকোলন বা স্পেস দিয়ে আলাদা করা নম্বর গ্রহণ করবে। শুধু নিজের বা ব্যবহারের অনুমতি আছে এমন কন্টাক্ট তালিকা ব্যবহার করুন।</p>
+  </section>
+
+  <section class="panel">
+    <div class="grid">
+      <div>
+        <label for="country">২. যে কান্ট্রি কোড বাদ দিতে চান</label>
+        <input id="country" inputmode="numeric" placeholder="যেমন: 880" value="880">
+        <p class="hint">+880 বা 880—দুইভাবেই থাকলে কোডটি বাদ দেবে।</p>
+      </div>
+      <div>
+        <label for="format">৩. আউটপুট ফরম্যাট</label>
+        <select id="format" style="width:100%;min-height:46px;background:#0b1223;border:1px solid #334362;border-radius:11px;color:var(--text);padding:12px;font:inherit">
+          <option value="local">কান্ট্রি কোড বাদ (যেমন 1712345678)</option>
+          <option value="digits">শুধু ডিজিট রাখুন</option>
+        </select>
+        <p class="hint">শুরুর +, ড্যাশ, বন্ধনী ও অন্যান্য চিহ্ন স্বাভাবিকভাবে পরিষ্কার করা হবে।</p>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="generate">নম্বর পরিষ্কার করুন</button>
+      <button id="clear">সব মুছুন</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2 style="font-size:1.2rem;margin:0 0 8px">পরিষ্কার করা নম্বর</h2>
+    <div class="stats">
+      <div class="stat">মোট ইউনিক: <strong id="unique">0</strong></div>
+      <div class="stat">ডুপ্লিকেট বাদ: <strong id="duplicates">0</strong></div>
+      <div class="stat">ফাঁকা/অকার্যকর: <strong id="invalid">0</strong></div>
+    </div>
+    <div class="actions" style="margin:0 0 13px">
+      <button id="copyAll" disabled>সব নম্বর কপি</button>
+      <button id="download" disabled>TXT ডাউনলোড</button>
+    </div>
+    <div id="results" class="results"><div class="empty">এখানে ফলাফল দেখা যাবে।</div></div>
+    <p id="status" class="hint" role="status" aria-live="polite"></p>
+  </section>
+  <footer>নম্বর শুধু ফরম্যাট ও ডুপ্লিকেট চেকের জন্য। এই টুলে কল/SMS পাঠানোর কোনো সুবিধা নেই।</footer>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+let cleaned = [];
+function extractTokens(text){ return text.split(/[\n\r,;，、\t ]+/).map(s=>s.trim()).filter(Boolean); }
+function cleanNumber(token, country, mode){
+  const trimmed = token.trim();
+  const hadPlus = trimmed.startsWith('+');
+  let digits = trimmed.replace(/\D/g,'');
+  if (!digits) return null;
+  const cc = country.replace(/\D/g,'');
+  if (cc && digits.startsWith(cc) && digits.length > cc.length) digits = digits.slice(cc.length);
+  // Avoid treating a local number as invalid just because it is short; retain digits only.
+  return digits || null;
+}
+function render(){
+  const host=$('results'); host.replaceChildren();
+  if(!cleaned.length){host.innerHTML='<div class="empty">কোনো নম্বর পাওয়া যায়নি। ইনপুট ও কান্ট্রি কোড পরীক্ষা করুন।</div>';return;}
+  cleaned.forEach((num,i)=>{
+    const row=document.createElement('div'); row.className='number';
+    const code=document.createElement('code'); code.textContent=(i+1)+'. '+num;
+    const btn=document.createElement('button'); btn.textContent='কপি';
+    btn.addEventListener('click',async()=>{
+      try{await navigator.clipboard.writeText(num);$('status').textContent='কপি হয়েছে: '+num;btn.textContent='কপি হয়েছে ✓';setTimeout(()=>btn.textContent='কপি',1200);}
+      catch(e){const ta=document.createElement('textarea');ta.value=num;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();$('status').textContent='কপি হয়েছে: '+num;}
+    });
+    row.append(code,btn);host.appendChild(row);
+  });
+}
+$('generate').addEventListener('click',()=>{
+  const tokens=extractTokens($('raw').value);
+  const country=$('country').value.trim();
+  const seen=new Set(); let duplicates=0,invalid=0; const out=[];
+  for(const token of tokens){
+    const value=cleanNumber(token,country,$('format').value);
+    if(!value){invalid++;continue;}
+    if(seen.has(value)){duplicates++;continue;}
+    seen.add(value);out.push(value);
+  }
+  cleaned=out;
+  $('unique').textContent=out.length;
+  $('duplicates').textContent=duplicates;
+  $('invalid').textContent=invalid;
+  $('copyAll').disabled=!out.length;$('download').disabled=!out.length;
+  $('status').textContent='সম্পন্ন: '+out.length+'টি ইউনিক নম্বর তৈরি হয়েছে।';
+  render();
+});
+$('clear').addEventListener('click',()=>{
+  $('raw').value='';cleaned=[];$('unique').textContent='0';$('duplicates').textContent='0';$('invalid').textContent='0';
+  $('copyAll').disabled=true;$('download').disabled=true;$('status').textContent='';render();
+});
+$('copyAll').addEventListener('click',async()=>{
+  try{await navigator.clipboard.writeText(cleaned.join('\n'));$('status').textContent='সব '+cleaned.length+'টি নম্বর কপি হয়েছে।';}
+  catch(e){$('status').textContent='ব্রাউজারের ক্লিপবোর্ড অনুমতি পাওয়া যায়নি—প্রতিটি নম্বরের কপি বোতাম ব্যবহার করুন।';}
+});
+$('download').addEventListener('click',()=>{
+  const blob=new Blob([cleaned.join('\n')+'\n'],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='cleaned-numbers.txt';a.click();URL.revokeObjectURL(url);
+});
+</script>
+</body>
+</html>
