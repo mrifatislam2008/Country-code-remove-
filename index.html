@@ -4,205 +4,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Number Cleaner</title>
+<title>Number Cleaner Pro</title>
 
 <style>
 :root{
---bg:#0b1020;
---panel:#121a2e;
---line:#263451;
---text:#edf3ff;
---muted:#9cabc5;
---accent:#79a8ff;
+--bg:#0b1020;--panel:#121a2e;--line:#263451;
+--text:#edf3ff;--muted:#9cabc5;--accent:#79a8ff;
 }
-
 *{box-sizing:border-box}
-
 body{
-margin:0;
-padding:18px;
+margin:0;padding:15px;color:var(--text);
 background:radial-gradient(ellipse at top,#172746,#0b1020 65%);
 font-family:system-ui,sans-serif;
-color:var(--text);
 }
-
 main{max-width:850px;margin:auto}
-
 .hero{margin:10px 0 22px}
-
-.eyebrow{
-color:var(--accent);
-font-size:.82rem;
-font-weight:700;
-letter-spacing:.12em;
-}
-
+.eyebrow{color:var(--accent);font-size:.82rem;font-weight:700;letter-spacing:.1em}
 h1{font-size:2rem;margin:8px 0}
-
-.sub,.hint{
-color:var(--muted);
-line-height:1.6;
-}
-
+.sub,.hint{color:var(--muted);line-height:1.6}
 .panel{
 background:rgba(18,26,46,.96);
 border:1px solid var(--line);
-border-radius:18px;
-padding:18px;
-margin:14px 0;
+border-radius:18px;padding:17px;margin:14px 0;
+box-shadow:0 10px 30px #0002;
 }
-
-label{
-display:block;
-font-weight:650;
-margin-bottom:8px;
-}
-
+label{display:block;font-weight:650;margin-bottom:8px}
 textarea,input,select{
-width:100%;
-background:#0b1223;
-border:1px solid #334362;
-border-radius:11px;
-color:var(--text);
-padding:13px;
-font:inherit;
-outline:none;
+width:100%;background:#0b1223;
+border:1px solid #334362;border-radius:11px;
+color:var(--text);padding:13px;font:inherit;
 }
-
 textarea{min-height:180px;resize:vertical}
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
-}
-
-.actions{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-margin-top:14px;
-}
-
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
 button{
-border:1px solid #3b4c6e;
-background:#1b2944;
-color:white;
-padding:11px 16px;
-border-radius:11px;
-font:inherit;
-font-weight:650;
-cursor:pointer;
+border:1px solid #3b4c6e;background:#1b2944;
+color:white;padding:11px 15px;border-radius:11px;
+font:inherit;font-weight:650;cursor:pointer;
 }
-
-button.primary{
-background:var(--accent);
-color:#081326;
-border-color:var(--accent);
-}
-
-button:disabled{
-opacity:.4;
-cursor:not-allowed;
-}
-
-.stats{
-display:flex;
-flex-wrap:wrap;
-gap:9px;
-margin:12px 0;
-}
-
+button.primary{background:var(--accent);color:#081326}
+button.danger{background:#542b39;border-color:#854454}
+button:disabled{opacity:.4;cursor:not-allowed}
+.stats{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0}
 .stat{
-background:#0b1223;
-border:1px solid var(--line);
-padding:9px 12px;
-border-radius:10px;
-color:var(--muted);
+background:#0b1223;border:1px solid var(--line);
+padding:9px 12px;border-radius:10px;color:var(--muted)
 }
-
 .stat strong{color:white}
-
-.results{
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-
+.progress{height:9px;background:#080e1c;border-radius:20px;overflow:hidden;margin:15px 0}
+.progress div{height:100%;width:0;background:var(--accent);transition:.3s}
+.results{display:flex;flex-direction:column;gap:9px}
 .number{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-padding:12px;
+display:flex;align-items:center;justify-content:space-between;
+gap:10px;padding:12px;background:#0b1223;
 border:1px solid #263451;
 border-left:5px solid var(--item-color);
-border-radius:12px;
-background:#0b1223;
-transition:.2s;
+border-radius:12px;transition:.2s;
 }
-
-.number code{
-font-size:1rem;
-overflow-wrap:anywhere;
-}
-
+.number code{font-size:1rem;overflow-wrap:anywhere}
 .number button{
-background:var(--item-color);
-color:#07101e;
-border-color:var(--item-color);
-flex-shrink:0;
+background:var(--item-color);color:#07101e;
+border-color:var(--item-color);flex-shrink:0;
 }
-
-.number.copied{
-background:var(--item-color);
-border-color:var(--item-color);
-color:#07101e;
-}
-
-.number.copied code{
-font-weight:800;
-}
-
-.number.copied button{
-background:#101a2d;
-color:white;
-border-color:#101a2d;
-}
-
+.number.copied{background:var(--item-color);color:#07101e}
+.number.copied code{font-weight:800}
+.number.copied button{background:#101a2d;color:white}
 .empty{
-color:var(--muted);
-padding:22px;
-text-align:center;
-border:1px dashed var(--line);
-border-radius:12px;
+color:var(--muted);padding:22px;text-align:center;
+border:1px dashed var(--line);border-radius:12px
 }
-
-.progress{
-height:9px;
-background:#0b1223;
-border-radius:20px;
-overflow:hidden;
-margin:12px 0;
-}
-
-.progress div{
-height:100%;
-width:0%;
-background:var(--accent);
-transition:.3s;
-}
-
-footer{
-font-size:.82rem;
-color:var(--muted);
-text-align:center;
-padding:18px;
-}
-
+footer{text-align:center;color:var(--muted);font-size:.82rem;padding:18px}
 @media(max-width:560px){
-body{padding:12px}
-.grid{grid-template-columns:1fr}
+body{padding:11px}.grid{grid-template-columns:1fr}
 .panel{padding:14px}
 }
 </style>
@@ -212,37 +85,26 @@ body{padding:12px}
 <main>
 
 <header class="hero">
-<div class="eyebrow">OFFLINE • PRIVATE • SAVED QUEUE</div>
-<h1>Number Cleaner</h1>
+<div class="eyebrow">OFFLINE • PRIVATE • AUTO SAVE</div>
+<h1>Number Cleaner Pro</h1>
 <p class="sub">
 নম্বর পরিষ্কার করুন, ডুপ্লিকেট বাদ দিন এবং
 একবারে পাঁচটি করে নম্বর কপি করুন।
-আপনার কাজের অগ্রগতি স্বয়ংক্রিয়ভাবে সংরক্ষিত থাকবে।
 </p>
 </header>
 
 <section class="panel">
-
-<label for="raw">১. নম্বরগুলো পেস্ট করুন</label>
-
-<textarea id="raw"
-placeholder="+8801712345678&#10;8801812345678&#10;01712345678"></textarea>
-
-<p class="hint">
-এক লাইনে একটি নম্বর অথবা কমা, স্পেস দিয়ে আলাদা করুন।
-</p>
-
+<label for="raw">১. নম্বরগুলো Import করুন</label>
+<textarea id="raw" placeholder="+8801712345678&#10;+8801812345678"></textarea>
+<p class="hint">এক লাইনে একটি অথবা কমা/স্পেস দিয়ে আলাদা করুন।</p>
 </section>
 
 <section class="panel">
-
 <div class="grid">
-
 <div>
 <label for="country">২. Country Code</label>
 <input id="country" value="880" inputmode="numeric">
 </div>
-
 <div>
 <label for="format">৩. Output Format</label>
 <select id="format">
@@ -250,24 +112,31 @@ placeholder="+8801712345678&#10;8801812345678&#10;01712345678"></textarea>
 <option value="digits">শুধু ডিজিট রাখুন</option>
 </select>
 </div>
+</div>
 
+<div style="margin-top:16px">
+<label for="importMode">৪. Import Queue Mode</label>
+<select id="importMode">
+<option value="old">Old Pending First</option>
+<option value="new">New Import First</option>
+<option value="replace">Replace Pending</option>
+</select>
 </div>
 
 <div class="actions">
-<button class="primary" id="generate">Generate Numbers</button>
-<button id="clear">Clear Input</button>
+<button class="primary" id="generate">Import / Generate</button>
+<button id="clearInput">Clear Input</button>
+<button class="danger" id="clearAll">Clear All</button>
 </div>
 
 <p class="hint">
-Clear Input শুধু ইনপুট বক্স খালি করবে।
-আগে Generate করা নম্বরগুলো মুছে যাবে না।
+Clear Input = শুধু ইনপুট খালি করবে।<br>
+Clear All = সম্পূর্ণ Queue ও History মুছে দেবে।
 </p>
-
 </section>
 
 <section class="panel">
-
-<h2 style="font-size:1.2rem">Number Progress</h2>
+<h2>Number Progress</h2>
 
 <div class="stats">
 <div class="stat">মোট: <strong id="total">0</strong></div>
@@ -276,130 +145,128 @@ Clear Input শুধু ইনপুট বক্স খালি করবে�
 <div class="stat">ডুপ্লিকেট: <strong id="duplicates">0</strong></div>
 </div>
 
-<div class="progress">
-<div id="progressBar"></div>
-</div>
-
+<div class="progress"><div id="progressBar"></div></div>
 <p class="hint" id="batchInfo">Batch: 0</p>
-
 </section>
 
 <section class="panel">
-
-<h2 style="font-size:1.2rem;margin-top:0">
-বর্তমান ৫টি নম্বর
-</h2>
-
+<h2>বর্তমান ৫টি নম্বর</h2>
 <div id="results" class="results">
-<div class="empty">প্রথমে নম্বর Generate করুন।</div>
+<div class="empty">প্রথমে নম্বর Import করুন।</div>
 </div>
-
-<p id="status" class="hint" role="status" aria-live="polite"></p>
-
+<p class="hint" id="status" role="status" aria-live="polite"></p>
 </section>
 
 <footer>
-Offline Number Cleaner • Local Storage Enabled
+Number Cleaner Pro • Local Storage Enabled
 </footer>
 
 </main>
 
 <script>
-
 const $ = id => document.getElementById(id);
 
-const STORAGE_KEY = "number_cleaner_queue_v2";
-
-let state = {
-numbers: [],
-copied: [],
-duplicates: 0
-};
+const KEY = "number_cleaner_pro_v3";
 
 const colors = [
 "#65d6ff",
-"#a78bfa",
+"#b28aff",
 "#ffbd69",
 "#71e6a1",
 "#ff7899"
 ];
 
+let state = {
+queue: [],
+completed: [],
+activeBatch: [],
+duplicates: 0
+};
+
 function save(){
 try{
-localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+localStorage.setItem(KEY,JSON.stringify(state));
+return true;
 }catch(e){
-$("status").textContent="Storage পূর্ণ হয়েছে। ডাটা সংরক্ষণ করা যায়নি।";
+$("status").textContent="Storage-এ ডাটা সংরক্ষণ করা যায়নি!";
+return false;
 }
 }
 
 function load(){
 try{
-const saved=localStorage.getItem(STORAGE_KEY);
+const data=JSON.parse(localStorage.getItem(KEY));
 
-if(saved){
-const data=JSON.parse(saved);
+if(data && Array.isArray(data.queue) &&
+Array.isArray(data.completed)){
 
-if(
-Array.isArray(data.numbers) &&
-Array.isArray(data.copied)
-){
 state={
-numbers:[...new Set(data.numbers.filter(x=>typeof x==="string"))],
-copied:[...new Set(data.copied.filter(x=>typeof x==="string"))],
+queue:[...new Set(data.queue)],
+completed:[...new Set(data.completed)],
+activeBatch:Array.isArray(data.activeBatch)
+? data.activeBatch.filter(n=>data.queue.includes(n))
+: [],
 duplicates:Number(data.duplicates)||0
 };
 }
-}
 }catch(e){
-state={numbers:[],copied:[],duplicates:0};
+state={
+queue:[],completed:[],activeBatch:[],duplicates:0
+};
 }
-
 render();
 }
 
-function extractTokens(text){
-return text.split(/[\n\r,;，、\t ]+/)
-.map(s=>s.trim())
-.filter(Boolean);
-}
-
 function cleanNumber(token,country,mode){
-
-let digits=token.replace(/\D/g,'');
-
+let digits=token.replace(/\D/g,"");
 if(!digits)return null;
 
-const cc=country.replace(/\D/g,'');
+const cc=country.replace(/\D/g,"");
 
 if(mode==="local" && cc &&
 digits.startsWith(cc) &&
 digits.length>cc.length){
-
 digits=digits.slice(cc.length);
-
 }
-
 return digits || null;
 }
 
-function getPending(){
-return state.numbers.filter(
-num=>!state.copied.includes(num)
+function extractTokens(text){
+return text.split(/[\n\r,;，、\t ]+/)
+.map(x=>x.trim()).filter(Boolean);
+}
+
+function getCurrentBatch(){
+if(!state.activeBatch.length){
+state.activeBatch=state.queue.slice(0,5);
+save();
+}
+return state.activeBatch.filter(
+n=>state.queue.includes(n)
 );
 }
 
 function generate(){
 
 const tokens=extractTokens($("raw").value);
-
-const country=$("country").value.trim();
-
+const country=$("country").value;
 const mode=$("format").value;
+const importMode=$("importMode").value;
 
-const existing=new Set(state.numbers);
+if(!tokens.length){
+$("status").textContent="আগে নম্বর Import করুন।";
+return;
+}
 
+let newNumbers=[];
 let duplicateCount=0;
-let added=0;
+
+const seen=new Set([
+...state.queue,
+...state.completed
+]);
+
+const inputSeen=new Set();
 
 for(const token of tokens){
 
@@ -407,15 +274,37 @@ const number=cleanNumber(token,country,mode);
 
 if(!number)continue;
 
-if(existing.has(number)){
+if(seen.has(number)||inputSeen.has(number)){
 duplicateCount++;
 continue;
 }
 
-existing.add(number);
-state.numbers.push(number);
-added++;
+inputSeen.add(number);
+newNumbers.push(number);
+}
 
+if(importMode==="replace"){
+// Remove all previous pending numbers.
+// Completed numbers remain protected from duplicates.
+state.queue=[];
+state.activeBatch=[];
+}
+
+if(importMode==="new"){
+// New numbers appear before old pending numbers.
+state.queue=[
+...newNumbers,
+...state.queue
+];
+state.activeBatch=[];
+}
+
+if(importMode==="old"){
+// Keep old pending numbers first.
+state.queue=[
+...state.queue,
+...newNumbers
+];
 }
 
 state.duplicates+=duplicateCount;
@@ -424,168 +313,170 @@ save();
 render();
 
 $("status").textContent=
-added+"টি নতুন নম্বর যোগ হয়েছে। "+
-duplicateCount+"টি ডুপ্লিকেট বাদ হয়েছে।";
+newNumbers.length+"টি নতুন নম্বর যোগ হয়েছে। "+
+duplicateCount+"টি Duplicate বাদ হয়েছে।";
 
 }
 
-function render(){
-
-const pending=getPending();
-
-const host=$("results");
-
-host.replaceChildren();
-
-const total=state.numbers.length;
-const copied=state.copied.length;
-const remaining=pending.length;
-
-$("total").textContent=total;
-$("copied").textContent=copied;
-$("remaining").textContent=remaining;
-$("duplicates").textContent=state.duplicates;
-
-const percent=total ? (copied/total)*100 : 0;
-
-$("progressBar").style.width=percent+"%";
-
-const batchNumber=total
-? Math.floor(copied/5)+1
-: 0;
-
-$("batchInfo").textContent=
-remaining
-? "বর্তমান Batch: "+batchNumber+
-" | এই Batch-এ সর্বোচ্চ ৫টি নম্বর"
-: "সব নম্বর কপি সম্পন্ন হয়েছে।";
-
-if(!remaining){
-
-const empty=document.createElement("div");
-empty.className="empty";
-empty.textContent=total
-?"সব নম্বর কপি করা শেষ হয়েছে!"
-:"এখানে ফলাফল দেখা যাবে।";
-
-host.appendChild(empty);
-return;
-
-}
-
-const currentBatch=pending.slice(0,5);
-
-currentBatch.forEach((num,index)=>{
-
-const row=document.createElement("div");
-
-row.className="number";
-
-row.style.setProperty(
-"--item-color",
-colors[index]
-);
-
-const code=document.createElement("code");
-
-code.textContent=(index+1)+". "+num;
-
-const btn=document.createElement("button");
-
-btn.textContent="Copy";
-
-btn.addEventListener("click",async()=>{
+async function copyNumber(number,button,row){
 
 try{
 
 if(navigator.clipboard &&
 navigator.clipboard.writeText){
 
-await navigator.clipboard.writeText(num);
+await navigator.clipboard.writeText(number);
 
 }else{
 
 const ta=document.createElement("textarea");
-ta.value=num;
+ta.value=number;
 document.body.appendChild(ta);
 ta.select();
 
-const success=document.execCommand("copy");
-
+const ok=document.execCommand("copy");
 ta.remove();
 
-if(!success)throw new Error("Copy failed");
-
-}
-
-if(!state.copied.includes(num)){
-state.copied.push(num);
-}
-
-save();
-
-row.classList.add("copied");
-
-btn.textContent="Copied ✓";
-
-btn.disabled=true;
-
-$("status").textContent=
-"কপি হয়েছে: "+num;
-
-updateStatsOnly();
-
-const allCurrentCopied=
-currentBatch.every(n=>state.copied.includes(n));
-
-if(allCurrentCopied){
-
-$("status").textContent=
-"৫টি নম্বর কপি সম্পন্ন! পরবর্তী Batch প্রস্তুত হচ্ছে।";
-
-setTimeout(render,500);
-
+if(!ok)throw new Error("Copy failed");
 }
 
 }catch(e){
+$("status").textContent="Copy করা যায়নি। Clipboard Permission পরীক্ষা করুন।";
+return;
+}
+
+// Mark as completed only after successful copy.
+if(!state.completed.includes(number)){
+state.completed.push(number);
+}
+
+state.queue=state.queue.filter(n=>n!==number);
+
+row.classList.add("copied");
+button.textContent="Copied ✓";
+button.disabled=true;
+
+save();
+updateStats();
+
+$("status").textContent="কপি হয়েছে: "+number;
+
+const remainingInBatch=getCurrentBatch();
+
+if(remainingInBatch.length===0){
+
+state.activeBatch=[];
+save();
 
 $("status").textContent=
-"কপি করা যায়নি। ব্রাউজারের Clipboard Permission পরীক্ষা করুন।";
+"এই Batch সম্পন্ন! পরবর্তী ৫টি নম্বর প্রস্তুত।";
+
+setTimeout(render,450);
+}
 
 }
 
+function updateStats(){
+
+const total=state.queue.length+state.completed.length;
+const copied=state.completed.length;
+const remaining=state.queue.length;
+
+$("total").textContent=total;
+$("remaining").textContent=remaining;
+$("copied").textContent=copied;
+$("duplicates").textContent=state.duplicates;
+
+$("progressBar").style.width=
+(total ? copied/total*100 : 0)+"%";
+
+}
+
+function render(){
+
+updateStats();
+
+const host=$("results");
+host.replaceChildren();
+
+const batch=getCurrentBatch();
+
+if(!batch.length){
+
+const empty=document.createElement("div");
+empty.className="empty";
+
+empty.textContent=state.completed.length
+?"সব Pending নম্বর শেষ হয়েছে!"
+:"এখানে ফলাফল দেখা যাবে।";
+
+host.appendChild(empty);
+
+$("batchInfo").textContent="সব নম্বর শেষ।";
+return;
+}
+
+const batchNumber=Math.floor(
+state.completed.length/5
+)+1;
+
+$("batchInfo").textContent=
+"বর্তমান Batch: "+batchNumber+
+" | এই Batch-এ সর্বোচ্চ ৫টি নম্বর";
+
+batch.forEach((number,index)=>{
+
+const row=document.createElement("div");
+row.className="number";
+
+row.style.setProperty(
+"--item-color",colors[index]
+);
+
+const code=document.createElement("code");
+code.textContent=(index+1)+". "+number;
+
+const btn=document.createElement("button");
+btn.textContent="Copy";
+
+btn.addEventListener("click",()=>{
+copyNumber(number,btn,row);
 });
 
 row.append(code,btn);
-
 host.appendChild(row);
 
 });
 
 }
 
-function updateStatsOnly(){
-
-const total=state.numbers.length;
-const copied=state.copied.length;
-
-$("total").textContent=total;
-$("copied").textContent=copied;
-$("remaining").textContent=total-copied;
-
-$("progressBar").style.width=
-(total ? (copied/total)*100 : 0)+"%";
-
-}
-
 $("generate").addEventListener("click",generate);
 
-$("clear").addEventListener("click",()=>{
-
+$("clearInput").addEventListener("click",()=>{
 $("raw").value="";
+$("status").textContent=
+"ইনপুট পরিষ্কার হয়েছে। Queue নিরাপদ আছে।";
+});
+
+$("clearAll").addEventListener("click",()=>{
+
+if(!confirm(
+"সতর্কতা! সব Pending নম্বর এবং Completed History মুছে ফেলবেন?"
+))return;
+
+state={
+queue:[],
+completed:[],
+activeBatch:[],
+duplicates:0
+};
+
+save();
+$("raw").value="";
+render();
 
 $("status").textContent=
-"ইনপুট পরিষ্কার হয়েছে। সংরক্ষিত Queue আগের মতোই আছে।";
+"সম্পূর্ণ Queue ও History পরিষ্কার করা হয়েছে।";
 
 });
 
